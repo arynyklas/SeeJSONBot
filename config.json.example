@@ -1,0 +1,9 @@
+{
+    "bot_token": "987654321:SomeRandomHashFromBotFather",
+    "db_uri": "mongodb://localhost:27017",
+    "db_name": "SeeJSONBot",
+    "owners": [
+        123456789
+    ],
+    "cache_time": 432000
+}

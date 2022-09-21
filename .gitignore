@@ -1,0 +1,7 @@
+__pycache__/
+config.json
+test*
+__*
+*.db
+*.rar
+*.zip
