@@ -78,7 +78,7 @@ class UsersMiddleware(BaseMiddleware):
                         id = event.inline_query.id,
                         title = TEXTS.inline_query,
                         input_message_content = types.InputTextMessageContent(
-                            "<code>{formatted_json_string}</code>".format(
+                            message_text = "<code>{formatted_json_string}</code>".format(
                                 formatted_json_string = formatted_json_string
                             )
                         )
