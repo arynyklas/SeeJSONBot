@@ -1,0 +1,9 @@
+bot_token: ...
+logger_name: SeeJSONBot
+logs_chat_ids:
+  - 794823214
+logger_level: DEBUG
+db:
+  name: SeeJSONBot
+  uri: mongodb://localhost:27017
+cache_time: 432000

@@ -1,34 +1,40 @@
-from dataclasses import dataclass
-from json import load as load_json, dump as dump_json
+from pathlib import Path
+from sys import argv
+from pydantic import BaseModel
+from yaml import load as load_yaml, Loader
 
-from typing import List
+from typing import List, Union
 
 
-CONFIG_FILENAME: str = "config.json"
+CONFIG_FILEPATH: Path = Path(__file__).parent / (
+    "test_config.yml"
+    if "t" in argv
+    else
+    "config.yml"
+)
 
 
-@dataclass
-class Config:
+class DBConfig(BaseModel):
+    name: str
+    uri: str
+
+
+class Config(BaseModel):
     bot_token: str
-    db_uri: str
-    db_name: str
-    owners: List[int]
+    logger_name: str
+    logs_chat_ids: List[Union[int, str]]
+    logger_level: str
+    db: DBConfig
     cache_time: int
 
 
-def save_config(config: dict) -> None:
-    with open(CONFIG_FILENAME, "w", encoding="utf-8") as file:
-        dump_json(
-            obj = config,
-            fp = file,
-            ensure_ascii = False,
-            indent = 4
-        )
-
-
-with open(CONFIG_FILENAME, "r", encoding="utf-8") as file:
-    config: Config = Config(
-        **load_json(
-            fp = file
-        )
+with CONFIG_FILEPATH.open("r", encoding="utf-8") as file:
+    _config_data: dict = load_yaml(
+        stream = file,
+        Loader = Loader
     )
+
+
+config: Config = Config.parse_obj(
+    obj = _config_data
+)
