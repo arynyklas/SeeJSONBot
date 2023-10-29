@@ -5,7 +5,7 @@ from time import time
 from typing import Union, List
 
 
-def get_logger(name: str, bot_token: str, chat_ids: List[Union[int, str]], level: str) -> Logger:
+def get_logger(name: str, bot_token: str, chat_ids: Union[int, str, List[Union[int, str]]], level: str) -> Logger:
     logger: Logger = _getLogger(name)
 
     handler: TelegramMessageHandler = TelegramMessageHandler(

@@ -1,6 +1,5 @@
 from aiogram import Bot, Dispatcher, types, enums
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
-from aiogram.fsm.state import State, StatesGroup
 
 from db import User, init_db
 from basic_data import TEXTS
@@ -17,13 +16,9 @@ dispatcher: Dispatcher = Dispatcher()
 logger: utils.Logger = utils.get_logger(
     name = config.logger_name,
     bot_token = config.bot_token,
-    chat_ids = config.logs_chat_ids,
+    chat_ids = config.logs_chat_id,
     level = config.logger_level
 )
-
-
-class MailingForm(StatesGroup):
-    message: State = State()
 
 
 class UsersMiddleware(BaseMiddleware):
@@ -40,7 +35,8 @@ class UsersMiddleware(BaseMiddleware):
                     ).insert()
 
         formatted_json_string: str = event.model_dump_json(
-            indent = 2
+            indent = 2,
+            exclude_unset = True
         )
 
         if event.message:
@@ -48,7 +44,8 @@ class UsersMiddleware(BaseMiddleware):
                 await event.message.answer_document(
                     document = types.BufferedInputFile(
                         file = event.model_dump_json(
-                            indent = 4
+                            indent = 4,
+                            exclude_unset = True
                         ).encode("utf-8"),
                         filename = "{timestamp}.txt".format(
                             timestamp = utils.get_int_timestamp()
@@ -100,7 +97,9 @@ async def on_startup() -> None:
 @dispatcher.error()
 async def error_handler(event: types.ErrorEvent) -> None:
     logger.exception(
-        msg = event.update.model_dump_json(),
+        msg = event.update.model_dump_json(
+            exclude_unset = True
+        ),
         exc_info = event.exception
     )
 

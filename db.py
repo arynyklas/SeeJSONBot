@@ -2,7 +2,6 @@ from beanie import Document, init_beanie
 from pydantic import Field
 from motor.motor_asyncio import AsyncIOMotorClient
 from asyncio import get_event_loop
-from time import time
 
 import utils
 
@@ -24,7 +23,5 @@ async def init_db(db_uri: str, db_name: str) -> None:
 
     await init_beanie(
         database = client.get_database(db_name),
-        document_models = [
-            User
-        ]
+        document_models = BaseDocument.__subclasses__()
     )

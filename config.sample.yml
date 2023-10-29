@@ -1,7 +1,6 @@
 bot_token: ...
 logger_name: SeeJSONBot
-logs_chat_ids:
-  - 794823214
+logs_chat_id: 794823214
 logger_level: DEBUG
 db:
   name: SeeJSONBot

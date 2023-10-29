@@ -3,7 +3,7 @@ from sys import argv
 from pydantic import BaseModel
 from yaml import load as load_yaml, Loader
 
-from typing import List, Union
+from typing import Union
 
 
 CONFIG_FILEPATH: Path = Path(__file__).parent / (
@@ -22,7 +22,7 @@ class DBConfig(BaseModel):
 class Config(BaseModel):
     bot_token: str
     logger_name: str
-    logs_chat_ids: List[Union[int, str]]
+    logs_chat_id: Union[int, str]
     logger_level: str
     db: DBConfig
     cache_time: int
